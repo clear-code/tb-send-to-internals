@@ -1,0 +1,42 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@media (-moz-os-version: windows-xp) {
+  #button-sendToInternals {
+    list-style-image: url("chrome://messenger/skin/messengercompose/compose-toolbar.png");
+    -moz-image-region: rect(0px 24px 24px 0px);
+  }
+  #button-sendToInternals:hover {
+    -moz-image-region: rect(24px 24px 48px 0px);
+  }
+  #button-sendToInternals[disabled="true"] {
+    -moz-image-region: rect(48px 24px 72px 0px) !important;
+  }
+
+  toolbar[iconsize="small"] #button-sendToInternals {
+    list-style-image: url("chrome://messenger/skin/messengercompose/compose-toolbar-small.png");
+    -moz-image-region: rect(0px 16px 16px 0px);
+  }
+  toolbar[iconsize="small"] #button-sendToInternals:hover {
+    -moz-image-region: rect(16px 16px 32px 0px);
+  }
+  toolbar[iconsize="small"] #button-sendToInternals[disabled="true"] {
+    -moz-image-region: rect(32px 16px 48px 0px) !important;
+  }
+
+@media not all and (-moz-os-version: windows-xp) {
+  #button-sendToInternals {
+    list-style-image: url("chrome://messenger/skin/messengercompose/compose-toolbar.svg#send");
+  }
+  toolbar[brighttext] #button-sendToInternals {
+    list-style-image: url("chrome://messenger/skin/messengercompose/compose-toolbar.svg#send-inverted");
+  }
+}
+
+@media (-moz-windows-default-theme) and (-moz-os-version: windows-win8),
+       (-moz-windows-default-theme) and (-moz-os-version: windows-win10) {
+  #button-sendToInternals {
+    list-style-image: url("chrome://messenger/skin/messengercompose/compose-toolbar.svg#send-flat");
+  }
+}
