@@ -2,14 +2,14 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<!ENTITY sendToInternals.now.label"社内送信">
+<!ENTITY sendToInternals.now.label "社内送信">
 <!ENTITY sendToInternals.now.tooltip "このメッセージを今すぐ社内向けに送信します">
-<!ENTITY sendToInternals.later.label"後で社内送信">
+<!ENTITY sendToInternals.later.label "後で社内送信">
 <!ENTITY sendToInternals.later.tooltip "このメッセージを後で社内向けに送信します">
-<!ENTITY sendToExternals.now.label"社外送信">
-<!ENTITY sendToExternals.now.tooltip"このメッセージを今すぐ社外向けに送信します">
-<!ENTITY sendToExternals.later.label"後で社外送信">
-<!ENTITY sendToExternals.later.tooltip"このメッセージを後で社外向けに送信します">
+<!ENTITY sendToExternals.now.label "社外送信">
+<!ENTITY sendToExternals.now.tooltip "このメッセージを今すぐ社外向けに送信します">
+<!ENTITY sendToExternals.later.label "後で社外送信">
+<!ENTITY sendToExternals.later.tooltip "このメッセージを後で社外向けに送信します">
 
 <!ENTITY config.title "Send to Internalsの設定">
 <!ENTITY config.tabs.general "全般">
