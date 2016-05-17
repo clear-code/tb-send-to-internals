@@ -28,8 +28,8 @@
     	oncommand="if (SendToInternalsHelper.checkInternals()) goDoCommand('cmd_sendNow');"/>
     <command id="cmd_sendToInternalsLater"
     	oncommand="if (SendToInternalsHelper.checkInternals()) goDoCommand('cmd_sendLater');"/>
-  </command>
-  <scrintbundleset>
+  </commandset>
+  <stringbundleset>
     <stringbundle id="sendToInternalsBundle"
                   src="chrome://send-to-internals/locale/send-to-internals.properties"/>
   </stringbundleset>
