@@ -9,7 +9,7 @@ skin	send-to-internals	classic/1.0	skin/classic/
 
 overlay	chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/content/composeOverlay.xul
 
-style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/highlight.css	os=WINNT
+style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/highlight.css
 
 style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-WINNT.css	os=WINNT
 style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-WINNT.css	os=WINNT

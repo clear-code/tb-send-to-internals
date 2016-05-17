@@ -25,26 +25,43 @@ var SendToInternalsHelper = {
                                      .filter(function(aDomain) {
                                        return aDomain;
                                      });
-    if (internalDomains.length === 0) {
-      alert('no domain config');
-      return false;
-    }
 
     var externals = this.getAllRecipients().filter(function(aAddress) {
       var domain = aAddress.address.split('@')[1];
       return internalDomains.indexOf(domain) < 0;
     }, this);
+
     if (externals.length !== 0) {
       this.highlightExternals(externals);
-      alert('no internal address');
+      if (internalDomains.length === 0)
+        alert('no domain config');
+      else
+        alert('have external address');
       return false;
     }
     
     return true;
   },
 
-  highlightExternals: function(aAddresses)
+  HIGHLIGHT: 'data-send-to-internals-external-address',
+
+  highlightExternals: function(aExternalAddresses)
   {
+    var externalMatcher = null;
+    if (aExternalAddresses.length)
+      externalMatcher = new RegExp(aExternalAddresses.map(function(aAddress) {
+        return aAddress.address.replace(/\./g, '\\.').replace(/\+/g, '\\+');
+      }).join('|'));
+
+    Services.console.logStringMessage('highlight externals: '+externalMatcher);
+
+    var addressFields = document.querySelectorAll('.textbox-addressingWidget');
+    Array.forEach(addressFields, function(aField) {
+      if (externalMatcher && externalMatcher.test(aField.value))
+        aField.setAttribute(this.HIGHLIGHT, true);
+      else
+        aField.removeAttribute(this.HIGHLIGHT);
+    }, this);
   },
 
   getAllRecipients: function() {
@@ -92,6 +109,12 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
     currentSet = (currentSet ? (currentSet + ',') : '' ) + 'spring,button-sendToInternals';
     toolbar.setAttribute('currentset', currentSet);
   }
+
+  window.addEventListener('input', function SendToInternalsOnInput(aEvent) {
+    var field = aEvent.target;
+    if (field.hasAttribute(SendToInternalsHelper.HIGHLIGHT))
+      field.removeAttribute(SendToInternalsHelper.HIGHLIGHT);
+  }, false);
 }, false);
 
 })();
