@@ -83,11 +83,11 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
   var defaultSet = toolbar.getAttribute('defaultset');
   var currentSet = toolbar.getAttribute('currentset');
 
+  defaultSet = (defaultSet ? (defaultSet + ',') : '' ) + 'spring,button-sendToInternals';
+  toolbar.setAttribute('defaultset', defaultSet);
   if (!Services.prefs.getBoolPref(BASE + 'initialized')) {
     Services.prefs.setBoolPref(BASE + 'initialized', true);
-    defaultSet = (defaultSet ? defaultSet + ',' : '' ) + 'sprint,button-sendToInternals';
-    toolbar.setAttribute('defaultset', defaultSet);
-    currentSet = (currentSet ? currentSet + ',' : '' ) + 'sprint,button-sendToInternals';
+    currentSet = (currentSet ? (currentSet + ',') : '' ) + 'spring,button-sendToInternals';
     toolbar.setAttribute('currentset', currentSet);
   }
 }, false);
