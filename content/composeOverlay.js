@@ -17,7 +17,7 @@ var BASE = 'extensions.send-to-internals@clear-code.com.';
 var SendToInternalsHelper = {
   checkInternals : function()
   {
-    var internalDomains = Services.prefs.getComplexValue(BASE + 'domains', Ci.nsISupportsString).value;
+    var internalDomains = Services.prefs.getComplexValue(BASE + 'domains', Ci.nsISupportsString).data;
     internalDomains = internalDomains.split(/[,\|\s]+/)
                                      .map(function(aDomain) {
                                        return aDomain.trim();
