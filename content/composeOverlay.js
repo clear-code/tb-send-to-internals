@@ -26,7 +26,7 @@ var SendToInternalsHelper = {
                                        return aDomain;
                                      });
     if (internalDomains.length === 0) {
-      // alert here!
+      alert('no domain config');
       return false;
     }
 
@@ -36,11 +36,15 @@ var SendToInternalsHelper = {
     }, this);
     if (externals.length !== 0) {
       this.highlightExternals(externals);
-      // alert here!
+      alert('no internal address');
       return false;
     }
     
     return true;
+  },
+
+  highlightExternals: function(aAddresses)
+  {
   },
 
   getAllRecipients: function() {
