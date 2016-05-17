@@ -11,7 +11,6 @@ var MimeHeaderParser = Cc['@mozilla.org/messenger/headerparser;1']
                          .getService(Ci.nsIMsgHeaderParser);
 
 var { Services } = Cu.import('resource://gre/modules/Services.jsm');
-var { SendToInternalsUtils: utils } = Cu.import('resource://check-attachment-before-send-modules/utils.js', {});
 
 var BASE = 'extensions.send-to-internals@clear-code.com.';
 
