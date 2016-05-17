@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="./composeOverlay.js" />
+  <toolbarpalette id="MsgComposeToolbarPalette">
+    <toolbarbutton id="button-send"
+                   label="&sendToExternals.now.label;"
+                   tooltiptext="&sendToExternals.now.tooltip;"
+                   now_label="&sendToExternals.now.label;"
+                   now_tooltiptext="&sendToExternals.now.tooltip;"
+                   later_label="&sendToExternals.later.label;"
+                   later_tooltiptext="&sendToExternals.later.tooltip;"/>
+    <toolbarbutton class="toolbarbutton-1"
+                   id="button-sendToInternals"
+                   label="&sendToInternals.now.label;"
+                   tooltiptext="&sendToInternals.now.tooltip;"
+                   now_label="&sendToInternals.now.label;"
+                   now_tooltiptext="&sendToInternals.now.tooltip;"
+                   later_label="&sendToInternals.later.label;"
+                   later_tooltiptext="&sendToInternals.later.tooltip;"
+                   command="cmd_sendToInternals"/>
+  </toolbarpalette>
+  <commandset id="composeCommands">
+    <command id="cmd_sendToInternals"
+    	oncommand="if (SendToInternalsHelper.checkInternals()) goDoCommand('cmd_sendNow');"/>
+    <command id="cmd_sendToInternalsLater"
+    	oncommand="if (SendToInternalsHelper.checkInternals()) goDoCommand('cmd_sendLater');"/>
+  </command>
+  <scrintbundleset>
+    <stringbundle id="sendToInternalsBundle"
+                  src="chrome://send-to-internals/locale/send-to-internals.properties"/>
+  </stringbundleset>
+</overlay>

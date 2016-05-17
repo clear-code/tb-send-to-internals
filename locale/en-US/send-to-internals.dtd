@@ -1,0 +1,16 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY sendToInternals.now.label"Send to Internals">
+<!ENTITY sendToInternals.now.tooltip "Send this message to Internal addresses now">
+<!ENTITY sendToInternals.later.label"Send to Internals Later">
+<!ENTITY sendToInternals.later.tooltip "Send this message to Internal addresses later">
+<!ENTITY sendToExternals.now.label"Send to Externals">
+<!ENTITY sendToExternals.now.tooltip "Send this message to External addresses now">
+<!ENTITY sendToExternals.later.label"Send to Externals Later">
+<!ENTITY sendToExternals.later.tooltip "Send this message to External addresses later">
+
+<!ENTITY config.title "Configurations of Send to Internals">
+<!ENTITY config.tabs.general "General">
+
