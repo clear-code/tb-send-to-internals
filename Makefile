@@ -4,11 +4,11 @@ PACKAGE_NAME = send-to-internals
 
 all: xpi
 
-xpi: makexpi/makexpi.sh copy-extlib
+xpi: makexpi/makexpi.sh #copy-extlib
 	makexpi/makexpi.sh -n $(PACKAGE_NAME) -o
 
-copy-extlib:
-	cp extlib/**/*.jsm modules/lib/
+#copy-extlib:
+#	cp extlib/**/*.jsm modules/lib/
 
 makexpi/makexpi.sh:
 	git submodule update --init
