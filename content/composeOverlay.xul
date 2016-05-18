@@ -25,9 +25,11 @@
   </toolbarpalette>
   <commandset id="composeCommands">
     <command id="cmd_sendToInternals"
-    	oncommand="if (SendToInternalsHelper.checkInternals()) goDoCommand('cmd_sendNow');"/>
+    	oncommand="goDoCommand('cmd_sendToInternals');"/>
+    <command id="cmd_sendToInternalsNow"
+    	oncommand="goDoCommand('cmd_sendToInternalsNow');"/>
     <command id="cmd_sendToInternalsLater"
-    	oncommand="if (SendToInternalsHelper.checkInternals()) goDoCommand('cmd_sendLater');"/>
+    	oncommand="goDoCommand('cmd_sendToInternalsLater');"/>
   </commandset>
   <stringbundleset>
     <stringbundle id="sendToInternalsBundle"

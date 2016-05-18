@@ -43,9 +43,9 @@ var SendToInternalsHelper = {
     return true;
   },
 
-  HIGHLIGHT: 'data-send-to-internals-external-address',
+  HIGHLIGHT : 'data-send-to-internals-external-address',
 
-  highlightExternals: function(aExternalAddresses)
+  highlightExternals : function(aExternalAddresses)
   {
     var externalMatcher = null;
     if (aExternalAddresses.length)
@@ -64,7 +64,8 @@ var SendToInternalsHelper = {
     }, this);
   },
 
-  getAllRecipients: function() {
+  getAllRecipients : function()
+  {
     var msgCompFields = gMsgCompose.compFields;
     Recipients2CompFields(msgCompFields);
     gMsgCompose.expandMailingLists();
@@ -73,7 +74,8 @@ var SendToInternalsHelper = {
             .concat(this.splitRecipients(msgCompFields.bcc, 'Bcc'));
   },
 
-  splitRecipients: function(aAddressesSource, aType){
+  splitRecipients : function(aAddressesSource, aType)
+  {
     var addresses = {};
     var names = {};
     var fullNames = {};
@@ -91,12 +93,72 @@ var SendToInternalsHelper = {
       });
     }
     return recipients;
+  },
+
+  // command controller
+  supportsCommand : function(aCommand)
+  {
+    switch (aCommand)
+    {
+      case 'cmd_sendToInternals':
+      case 'cmd_sendToInternalsNow':
+      case 'cmd_sendToInternalsLater':
+        return true;
+
+      default:
+        return false;
+    }
+  },
+  isCommandEnabled : function(aCommand)
+  {
+    switch (aCommand)
+    {
+      case 'cmd_sendToInternals':
+        return defaultController.commands.cmd_sendButton.isEnabled();
+
+      case 'cmd_sendToInternalsNow':
+        return defaultController.commands.cmd_sendNow.isEnabled();
+
+      case 'cmd_sendToInternalsLater':
+        return defaultController.commands.cmd_sendLater.isEnabled();
+
+      default:
+        return false;
+    }
+  },
+  doCommand : function(aCommand)
+  {
+    switch (aCommand)
+    {
+      case 'cmd_sendToInternals':
+        if (this.checkInternals())
+          goDoCommand('cmd_sendButton');
+        return;
+
+      case 'cmd_sendToInternalsNow':
+        if (this.checkInternals())
+          goDoCommand('cmd_sendNow');
+        return;
+
+      case 'cmd_sendToInternalsLater':
+        if (this.checkInternals())
+          goDoCommand('cmd_sendLater');
+        return;
+
+      default:
+        return false;
+    }
+  },
+  onEvent : function(aEvent)
+  {
   }
 };
 window.SendToInternalsHelper = SendToInternalsHelper;
 
 window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEvent) {
   window.removeEventListener(aEvent.type, SendToInternalsOnLoad, false);
+
+  top.controllers.appendController(SendToInternalsHelper);
 
   var toolbar = document.getElementById('composeToolbar2');
   var defaultSet = toolbar.getAttribute('defaultset');
@@ -118,5 +180,33 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
       field.removeAttribute(SendToInternalsHelper.HIGHLIGHT);
   }, false);
 }, false);
+
+window.__sendToInternals__updateSendCommands = window.updateSendCommands;
+window.updateSendCommands = function(aHaveController, ...aArgs) {
+  this.__sendToInternals__updateSendCommands(aHaveController, ...aArgs);
+  if (aHaveController)
+    goUpdateCommand('cmd_sendToInternals');
+  else
+    goUpdateCommand('cmd_sendToInternals', SendToInternalsHelper.isCommandEnabled('cmd_sendToInternals'));
+};
+
+window.__sendToInternals__MessageComposeOfflineStateChanged = window.MessageComposeOfflineStateChanged;
+window.MessageComposeOfflineStateChanged = function(aGoingOffline, ...aArgs) {
+  this.__sendToInternals__MessageComposeOfflineStateChanged(aGoingOffline, ...aArgs);
+
+  var button = document.getElementById('button-sendToInternals');
+  if (aGoingOffline) {
+    if (button) {
+      button.label = button.getAttribute('later_label');
+      button.setAttribute('tooltiptext', button.getAttribute('later_tooltiptext'))
+    }
+  }
+  else {
+    if (button) {
+      button.label = button.getAttribute('now_label');
+      button.setAttribute('tooltiptext', button.getAttribute('now_tooltiptext'))
+    }
+  }
+};
 
 })();

@@ -11,18 +11,15 @@ overlay	chrome://messenger/content/messengercompose/messengercompose.xul	chrome:
 
 style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/highlight.css
 
-style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-WINNT.css	os=WINNT appversion>=45.0
-style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-WINNT.css	os=WINNT appversion>=45.0
-style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-WINNT-38.css	os=WINNT osversion<6 appversion<45.0
-style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-WINNT-38.css	os=WINNT osversion<6 appversion<45.0
-style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-WINNT-aero-38.css	os=WINNT osversion>=6 appversion<45.0
-style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-WINNT-38-aero.css	os=WINNT osversion>=6 appversion<45.0
+override chrome://send-to-internals/skin/button-Linux.css	chrome://send-to-internals/skin/button-Linux-38.css	appversion<45.0
+override chrome://send-to-internals/skin/button-WINNT.css	chrome://send-to-internals/skin/button-WINNT-38.css	appversion<45.0
+override chrome://send-to-internals/skin/button-WINNT.css	chrome://send-to-internals/skin/button-WINNT-38-aero.css	appversion<45.0 osversion>=6
+
+style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-WINNT.css	os=WINNT
+style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-WINNT.css	os=WINNT
 
 style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-Darwin.css	os=Darwin
 style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-Darwin.css	os=Darwin
 
-style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-Linux.css	os=Linux appversion>=45.0
-style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-Linux.css	os=Linux appversion>=45.0
-style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-Linux-38.css	os=Linux appversion<45.0
-style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-Linux-38.css	os=Linux appversion<45.0
-
+style chrome://messenger/content/messengercompose/messengercompose.xul	chrome://send-to-internals/skin/button-Linux.css	os=Linux
+style chrome://global/content/customizeToolbar.xul	chrome://send-to-internals/skin/button-Linux.css	os=Linux
