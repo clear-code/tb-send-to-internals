@@ -42,7 +42,7 @@ var SendToInternalsHelper = {
         this.bundle.getString('alert.haveExternals.title'),
         this.bundle.getFormattedString('alert.haveExternals.text', externals.map(function(aAddress) {
           return aAddress.address;
-        })
+        }))
       );
       return false;
     }
