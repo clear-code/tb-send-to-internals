@@ -15,6 +15,10 @@ var { Services } = Cu.import('resource://gre/modules/Services.jsm');
 var BASE = 'extensions.send-to-internals@clear-code.com.';
 
 var SendToInternalsHelper = {
+  get bundle() {
+    return document.getElementById('sendToInternalsBundle');
+  },
+
   checkInternals : function()
   {
     var internalDomains = Services.prefs.getComplexValue(BASE + 'domains', Ci.nsISupportsString).data;
@@ -33,10 +37,13 @@ var SendToInternalsHelper = {
 
     if (externals.length !== 0) {
       this.highlightExternals(externals);
-      if (internalDomains.length === 0)
-        alert('no domain config');
-      else
-        alert('have external address');
+      Services.promptService.alert(
+        window,
+        this.bundle.getString('alert.haveExternals.title'),
+        this.bundle.getFormattedString('alert.haveExternals.text', externals.map(function(aAddress) {
+          return aAddress.address;
+        })
+      );
       return false;
     }
     
