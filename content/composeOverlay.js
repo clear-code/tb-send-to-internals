@@ -106,8 +106,10 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
   toolbar.setAttribute('defaultset', defaultSet);
   if (!Services.prefs.getBoolPref(BASE + 'initialized')) {
     Services.prefs.setBoolPref(BASE + 'initialized', true);
-    currentSet = (currentSet ? (currentSet + ',') : '' ) + 'spring,button-sendToInternals';
-    toolbar.setAttribute('currentset', currentSet);
+    if (currentSet) {
+      currentSet = currentSet + ',spring,button-sendToInternals';
+      toolbar.setAttribute('currentset', currentSet);
+    }
   }
 
   window.addEventListener('input', function SendToInternalsOnInput(aEvent) {
