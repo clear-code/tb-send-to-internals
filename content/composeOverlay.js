@@ -37,7 +37,7 @@ var SendToInternalsHelper = {
 
     if (externals.length !== 0) {
       this.highlightExternals(externals);
-      Services.promptService.alert(
+      Services.prompt.alert(
         window,
         this.bundle.getString('alert.haveExternals.title'),
         this.bundle.getFormattedString('alert.haveExternals.text', externals.map(function(aAddress) {
