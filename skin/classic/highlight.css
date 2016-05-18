@@ -3,6 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 textbox[data-send-to-internals-external-address="true"] {
-  background: red !important;
+  background: #f66 !important;
   color: white !important;
 }
