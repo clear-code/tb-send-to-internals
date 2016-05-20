@@ -199,6 +199,8 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
 
   window.addEventListener('input', function SendToInternalsOnInput(aEvent) {
     var field = aEvent.target;
+    if ((field.getAttribute('id') || '').indexOf('addressCol') !== 0)
+      return;
     if (field.__sendToInternals__highlightTimeout)
       clearTimeout(field.__sendToInternals__highlightTimeout);
     field.__sendToInternals__highlightTimeout = setTimeout(function() {
