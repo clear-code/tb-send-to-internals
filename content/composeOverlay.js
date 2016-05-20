@@ -38,6 +38,15 @@ var SendToInternalsHelper = {
     return new RegExp(expression);
   },
 
+  get lastField() {
+    var dummyRow = awGetNextDummyRow();
+    if (dummyRow)
+      return dummyRow.previousSibling;
+
+    var listbox = document.getElementById('addressingWidget');
+    return listbox.lastChild;
+  },
+
   checkInternals : function()
   {
     var internalDomains = this.internalDomains;
@@ -47,7 +56,7 @@ var SendToInternalsHelper = {
     }, this);
 
     if (externals.length !== 0) {
-      this.highlightExternals(externals);
+      this.highlightExternals();
       Services.prompt.alert(
         window,
         this.bundle.getString('alert.haveExternals.title'),
@@ -61,7 +70,7 @@ var SendToInternalsHelper = {
     return true;
   },
 
-  highlightExternals : function(aExternalAddresses)
+  highlightExternals : function()
   {
     var addressFields = document.querySelectorAll('.textbox-addressingWidget');
     Array.forEach(addressFields, this.updateExternalHighlight, this);
@@ -224,6 +233,13 @@ window.MessageComposeOfflineStateChanged = function(aGoingOffline, ...aArgs) {
       button.setAttribute('tooltiptext', button.getAttribute('now_tooltiptext'))
     }
   }
+};
+
+window.__sendToInternals__awAppendNewRow = window.awAppendNewRow;
+window.awAppendNewRow = function(aSetFocus, ...aArgs) {
+  var result = this.__sendToInternals__awAppendNewRow(aSetFocus, ...aArgs);
+  SendToInternalsHelper.lastField.removeAttribute(SendToInternalsHelper.HIGHLIGHT);
+  return result;
 };
 
 })();
