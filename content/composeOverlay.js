@@ -32,8 +32,8 @@ var SendToInternalsHelper = {
   },
 
   get internalMatcher() {
-    var expression = this.internalDomains.map(function(aAddress) {
-          return aAddress.address.replace(/\./g, '\\.').replace(/\+/g, '\\+');
+    var expression = this.internalDomains.map(function(aDomain) {
+          return '@' + aDomain.replace(/^@^/, '').replace(/\./g, '\\.').replace(/\+/g, '\\+');
         }).join('|')
     return new RegExp(expression);
   },
@@ -72,7 +72,7 @@ var SendToInternalsHelper = {
   updateExternalHighlight : function(aField)
   {
     var matcher = this.internalMatcher;
-    if (!matcher || !matcher.test(aField.value))
+    if (aField.value.trim() && (!matcher || !matcher.test(aField.value)))
       aField.setAttribute(this.HIGHLIGHT, true);
     else
       aField.removeAttribute(this.HIGHLIGHT);
