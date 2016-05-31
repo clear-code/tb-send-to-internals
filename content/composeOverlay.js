@@ -135,6 +135,13 @@ var SendToInternalsHelper = {
     return recipients;
   },
 
+  swapButtons : function(aIDs)
+  {
+    return aIDs.replace(/button-sendToInternals/, 'button-to-be-send')
+               .replace(/button-send\b/, 'button-sendToInternals')
+               .replace(/button-to-be-send/, 'button-send');
+  },
+
   // command controller
   supportsCommand : function(aCommand)
   {
@@ -205,9 +212,12 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
   var toolbar = document.getElementById('composeToolbar2');
   var defaultSet = toolbar.getAttribute('defaultset');
   var currentSet = toolbar.getAttribute('currentset');
+  var defaultIsInternal = Services.prefs.getBoolPref(BASE + 'defaultIsInternal');
 
   log('defaultSet: '+defaultSet);
   defaultSet = (defaultSet ? (defaultSet + ',') : '' ) + 'spring,button-sendToInternals';
+  if (defaultIsInternal)
+    defaultSet = SendToInternalsHelper.swapButtons(defaultSet);
   log('  => '+defaultSet);
   toolbar.setAttribute('defaultset', defaultSet);
   if (!Services.prefs.getBoolPref(BASE + 'initialized')) {
@@ -215,6 +225,8 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
     log('currentSet: '+currentSet);
     if (currentSet) {
       currentSet = currentSet + ',spring,button-sendToInternals';
+      if (defaultIsInternal)
+        currentSet = SendToInternalsHelper.swapButtons(currentSet);
       log('  => '+currentSet);
       toolbar.setAttribute('currentset', currentSet);
     }

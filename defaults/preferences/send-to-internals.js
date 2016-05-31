@@ -4,4 +4,5 @@
 
 pref("extensions.send-to-internals@clear-code.com.debug", false);
 pref("extensions.send-to-internals@clear-code.com.initialized", false);
+pref("extensions.send-to-internals@clear-code.com.defaultIsInternal", false);
 pref("extensions.send-to-internals@clear-code.com.domains", "example.com example.jp");
