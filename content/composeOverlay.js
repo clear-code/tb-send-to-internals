@@ -262,6 +262,9 @@ window.updateSendCommands = function(aHaveController, ...aArgs) {
     goUpdateCommand('cmd_sendToInternals');
   else
     goUpdateCommand('cmd_sendToInternals', SendToInternalsHelper.isCommandEnabled('cmd_sendToInternals'));
+
+  // update highlighted state after recipient is added from addressbook or others
+  SendToInternalsHelper.highlightExternals();
 };
 
 window.__sendToInternals__MessageComposeOfflineStateChanged = window.MessageComposeOfflineStateChanged;
