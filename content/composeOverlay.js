@@ -246,8 +246,9 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
     if (field.__sendToInternals__highlightTimeout)
       clearTimeout(field.__sendToInternals__highlightTimeout);
     field.__sendToInternals__highlightTimeout = setTimeout(function() {
-      log('input at '+field.id+' / '+field.value);
-      if ((field.getAttribute('id') || '').indexOf('addressCol') !== 0)
+      var id = field.getAttribute('id') || '';
+      log('input at '+id+' / '+field.value);
+      if (id.indexOf('addressCol') !== 0)
         return;
       SendToInternalsHelper.updateExternalHighlight(field);
     }, 500);
