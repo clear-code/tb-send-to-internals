@@ -220,16 +220,25 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
     defaultSet = SendToInternalsHelper.swapButtons(defaultSet);
   log('  => '+defaultSet);
   toolbar.setAttribute('defaultset', defaultSet);
-  if (!Services.prefs.getBoolPref(BASE + 'initialized')) {
+
+  log('currentSet: '+currentSet);
+  var currentSetModified = false;
+  if (currentSet &&
+      !Services.prefs.getBoolPref(BASE + 'initialized')) {
     Services.prefs.setBoolPref(BASE + 'initialized', true);
-    log('currentSet: '+currentSet);
-    if (currentSet) {
-      currentSet = currentSet + ',spring,button-sendToInternals';
-      if (defaultIsInternal)
-        currentSet = SendToInternalsHelper.swapButtons(currentSet);
-      log('  => '+currentSet);
-      toolbar.setAttribute('currentset', currentSet);
-    }
+    currentSet = currentSet + ',spring,button-sendToInternals';
+    currentSetModified = true;
+  }
+  if (currentSet &&
+      defaultIsInternal &&
+      !Services.prefs.getBoolPref(BASE + 'initiallySwapped')) {
+    Services.prefs.setBoolPref(BASE + 'initiallySwapped', true)
+    currentSet = SendToInternalsHelper.swapButtons(currentSet);
+    currentSetModified = true;
+  }
+  if (currentSetModified) {
+    log('  => '+currentSet);
+    toolbar.setAttribute('currentset', currentSet);
   }
 
   window.addEventListener('input', function SendToInternalsOnInput(aEvent) {
