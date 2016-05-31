@@ -241,7 +241,7 @@ window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEven
       if ((field.getAttribute('id') || '').indexOf('addressCol') !== 0)
         return;
       SendToInternalsHelper.updateExternalHighlight(field);
-    }, 250);
+    }, 500);
   }, false);
 }, false);
 
