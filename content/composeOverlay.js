@@ -14,6 +14,11 @@ var { Services } = Cu.import('resource://gre/modules/Services.jsm');
 
 var BASE = 'extensions.send-to-internals@clear-code.com.';
 
+function log(...aArgs) {
+  if (Services.prefs.getBoolPref(BASE+'debug'))
+    Services.console.logStringMessage('send-to-internals: '+aArgs.join(', '));
+}
+
 var SendToInternalsHelper = {
   get bundle() {
     return document.getElementById('sendToInternalsBundle');
@@ -21,6 +26,7 @@ var SendToInternalsHelper = {
 
   get internalDomains() {
     var internalDomains = Services.prefs.getComplexValue(BASE + 'domains', Ci.nsISupportsString).data;
+    log('(raw internalDomains: '+internalDomains+')');
     return internalDomains
              .split(/[,\|\s]+/)
              .map(function(aDomain) {
@@ -49,12 +55,19 @@ var SendToInternalsHelper = {
 
   checkInternals : function()
   {
+    log('checkInternals');
     var internalDomains = this.internalDomains;
-    var externals = this.getAllRecipients().filter(function(aAddress) {
+    log('internalDomains: '+internalDomains);
+    var externals = this.getAllRecipients().filter(function(aAddress, aIndex) {
+      log('recipient '+aIndex+' / '+aAddress.address);
       var domain = aAddress.address.split('@')[1];
-      return internalDomains.indexOf(domain) < 0;
+      log('  domain = '+domain);
+      var index = internalDomains.indexOf(domain);
+      log('  index = '+index);
+      return index < 0;
     }, this);
 
+    log('externals = '+externals.length);
     if (externals.length !== 0) {
       this.highlightExternals();
       Services.prompt.alert(
@@ -72,7 +85,9 @@ var SendToInternalsHelper = {
 
   highlightExternals : function()
   {
+    log('highlightExternals');
     var addressFields = document.querySelectorAll('.textbox-addressingWidget');
+    log('  addressFields = ' + addressFields.length);
     Array.forEach(addressFields, this.updateExternalHighlight, this);
   },
 
@@ -81,7 +96,9 @@ var SendToInternalsHelper = {
   updateExternalHighlight : function(aField)
   {
     var matcher = this.internalMatcher;
-    if (aField.value.trim() && (!matcher || !matcher.test(aField.value)))
+    var value = aField.value.trim();
+    log('updateExternalHighlight ' + aField.id + ' / ' + value + ' (' + matcher.test(value) + ')');
+    if (value && (!matcher || !matcher.test(value)))
       aField.setAttribute(this.HIGHLIGHT, true);
     else
       aField.removeAttribute(this.HIGHLIGHT);
@@ -181,24 +198,31 @@ window.SendToInternalsHelper = SendToInternalsHelper;
 window.addEventListener('DOMContentLoaded', function SendToInternalsOnLoad(aEvent) {
   window.removeEventListener(aEvent.type, SendToInternalsOnLoad, false);
 
+  log('start initialization');
+
   top.controllers.appendController(SendToInternalsHelper);
 
   var toolbar = document.getElementById('composeToolbar2');
   var defaultSet = toolbar.getAttribute('defaultset');
   var currentSet = toolbar.getAttribute('currentset');
 
+  log('defaultSet: '+defaultSet);
   defaultSet = (defaultSet ? (defaultSet + ',') : '' ) + 'spring,button-sendToInternals';
+  log('  => '+defaultSet);
   toolbar.setAttribute('defaultset', defaultSet);
   if (!Services.prefs.getBoolPref(BASE + 'initialized')) {
     Services.prefs.setBoolPref(BASE + 'initialized', true);
+    log('currentSet: '+currentSet);
     if (currentSet) {
       currentSet = currentSet + ',spring,button-sendToInternals';
+      log('  => '+currentSet);
       toolbar.setAttribute('currentset', currentSet);
     }
   }
 
   window.addEventListener('input', function SendToInternalsOnInput(aEvent) {
     var field = aEvent.target;
+    log('input at '+field.id);
     if ((field.getAttribute('id') || '').indexOf('addressCol') !== 0)
       return;
     if (field.__sendToInternals__highlightTimeout)
@@ -222,24 +246,28 @@ window.__sendToInternals__MessageComposeOfflineStateChanged = window.MessageComp
 window.MessageComposeOfflineStateChanged = function(aGoingOffline, ...aArgs) {
   this.__sendToInternals__MessageComposeOfflineStateChanged(aGoingOffline, ...aArgs);
 
+  log('MessageComposeOfflineStateChanged aGoingOffline='+aGoingOffline);
   var button = document.getElementById('button-sendToInternals');
+  if (!button) {
+    log('no button');
+    return;
+  }
+
+  log('button exists, update it');
   if (aGoingOffline) {
-    if (button) {
-      button.label = button.getAttribute('later_label');
-      button.setAttribute('tooltiptext', button.getAttribute('later_tooltiptext'))
-    }
+    button.label = button.getAttribute('later_label');
+    button.setAttribute('tooltiptext', button.getAttribute('later_tooltiptext'))
   }
   else {
-    if (button) {
-      button.label = button.getAttribute('now_label');
-      button.setAttribute('tooltiptext', button.getAttribute('now_tooltiptext'))
-    }
+    button.label = button.getAttribute('now_label');
+    button.setAttribute('tooltiptext', button.getAttribute('now_tooltiptext'))
   }
 };
 
 window.__sendToInternals__awAppendNewRow = window.awAppendNewRow;
 window.awAppendNewRow = function(aSetFocus, ...aArgs) {
   var result = this.__sendToInternals__awAppendNewRow(aSetFocus, ...aArgs);
+  log('awAppendNewRow');
   SendToInternalsHelper.lastField.removeAttribute(SendToInternalsHelper.HIGHLIGHT);
   return result;
 };
