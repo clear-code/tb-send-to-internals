@@ -73,9 +73,9 @@ var SendToInternalsHelper = {
       Services.prompt.alert(
         window,
         this.bundle.getString('alert.haveExternals.title'),
-        this.bundle.getFormattedString('alert.haveExternals.text', externals.map(function(aAddress) {
+        this.bundle.getFormattedString('alert.haveExternals.text', [externals.map(function(aAddress) {
           return aAddress.address;
-        }))
+        })].join('\n')])
       );
       return false;
     }
