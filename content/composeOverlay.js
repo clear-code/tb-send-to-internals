@@ -106,9 +106,10 @@ var SendToInternalsHelper = {
 
   getAllRecipients : function()
   {
-    gMsgCompose.expandMailingLists();
     var msgCompFields = gMsgCompose.compFields;
     Recipients2CompFields(msgCompFields);
+    gMsgCompose.expandMailingLists();
+    CompFields2Recipients(msgCompFields);
     return this.splitRecipients(msgCompFields.to, 'To')
     		.concat(this.splitRecipients(msgCompFields.cc, 'Cc'))
             .concat(this.splitRecipients(msgCompFields.bcc, 'Bcc'));
