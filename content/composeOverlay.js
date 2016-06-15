@@ -56,6 +56,8 @@ var SendToInternalsHelper = {
   checkInternals : function()
   {
     log('checkInternals');
+    log('populating mailing lists...');
+    gMsgCompose.expandMailingLists();
     var internalDomains = this.internalDomains;
     log('internalDomains: '+internalDomains);
     var externals = this.getAllRecipients().filter(function(aAddress, aIndex) {
