@@ -56,8 +56,6 @@ var SendToInternalsHelper = {
   checkInternals : function()
   {
     log('checkInternals');
-    log('populating mailing lists...');
-    gMsgCompose.expandMailingLists();
     var internalDomains = this.internalDomains;
     log('internalDomains: '+internalDomains);
     var externals = this.getAllRecipients().filter(function(aAddress, aIndex) {
@@ -108,9 +106,9 @@ var SendToInternalsHelper = {
 
   getAllRecipients : function()
   {
+    gMsgCompose.expandMailingLists();
     var msgCompFields = gMsgCompose.compFields;
     Recipients2CompFields(msgCompFields);
-    gMsgCompose.expandMailingLists();
     return this.splitRecipients(msgCompFields.to, 'To')
     		.concat(this.splitRecipients(msgCompFields.cc, 'Cc'))
             .concat(this.splitRecipients(msgCompFields.bcc, 'Bcc'));
