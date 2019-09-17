@@ -206,7 +206,7 @@ var SendToInternalsHelper = {
       var originalConfirmationMode = undefined;
       var originalConfirmationEnabled = undefined;
       var confirmationModeKey = 'net.nyail.tanabec.confirm-mail.confirmation.mode';
-      var confirmationEnabledKey = 'net.nyail.tanabec.confirm-mail.confirmation.mode';
+      var confirmationEnabledKey = 'net.nyail.tanabec.confirm-mail.confirmation.enabled';
       try {
          originalConfirmationMode = Services.prefs.getIntPref(confirmationModeKey);
       }
