@@ -53,6 +53,10 @@ var SendToInternalsHelper = {
     return listbox.lastChild;
   },
 
+  get shouldSuppressConfirmation() {
+    return Services.prefs.getBoolPref(BASE + 'suppressConfirmationOnInternalMail');
+  },
+
   checkInternals : function()
   {
     log('checkInternals');
@@ -179,23 +183,44 @@ var SendToInternalsHelper = {
     switch (aCommand)
     {
       case 'cmd_sendToInternals':
-        if (this.checkInternals())
-          goDoCommand('cmd_sendButton');
+        this.goDoCommandForInternals('cmd_sendButton');
         return;
 
       case 'cmd_sendToInternalsNow':
-        if (this.checkInternals())
-          goDoCommand('cmd_sendNow');
+        this.goDoCommandForInternals('cmd_sendNow');
         return;
 
       case 'cmd_sendToInternalsLater':
-        if (this.checkInternals())
-          goDoCommand('cmd_sendLater');
+        this.goDoCommandForInternals('cmd_sendLater');
         return;
 
       default:
         return false;
     }
+  },
+  goDoCommandForInternals : function(aCommand) {
+    if (!this.checkInternals())
+      return;
+
+    if (this.shouldSuppressConfirmation) {
+      var confirmationModeKey = 'net.nyail.tanabec.confirm-mail.confirmation.mode';
+      var originalConfirmationMode = 0;
+      try {
+         originalConfirmationMode = Services.prefs.getIntPref(confirmationModeKey);
+      }
+      catch(e) {
+      }
+      try {
+        Services.prefs.setIntPref(confirmationModeKey, 0);
+        setTimeout(function() {
+          Services.prefs.setIntPref(confirmationModeKey, originalConfirmationMode);
+        }, 100);
+      }
+      catch(e) {
+      }
+    }
+
+    goDoCommand(aCommand);
   },
   onEvent : function(aEvent)
   {
