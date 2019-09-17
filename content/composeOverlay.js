@@ -203,17 +203,33 @@ var SendToInternalsHelper = {
       return;
 
     if (this.shouldSuppressConfirmation) {
+      var originalConfirmationMode = undefined;
+      var originalConfirmationEnabled = undefined;
       var confirmationModeKey = 'net.nyail.tanabec.confirm-mail.confirmation.mode';
-      var originalConfirmationMode = 0;
+      var confirmationEnabledKey = 'net.nyail.tanabec.confirm-mail.confirmation.mode';
       try {
          originalConfirmationMode = Services.prefs.getIntPref(confirmationModeKey);
       }
       catch(e) {
       }
       try {
+         originalConfirmationEnabled = Services.prefs.getBoolPref(confirmationEnabledKey);
+      }
+      catch(e) {
+      }
+      try {
         Services.prefs.setIntPref(confirmationModeKey, 0);
+        Services.prefs.setBoolPref(confirmationEnabledKey, false);
         setTimeout(function() {
-          Services.prefs.setIntPref(confirmationModeKey, originalConfirmationMode);
+          if (originalConfirmationMode === undefined)
+            Services.prefs.clearUserPref(confirmationModeKey);
+          else
+            Services.prefs.setIntPref(confirmationModeKey, originalConfirmationMode);
+
+          if (originalConfirmationEnabled === undefined)
+            Services.prefs.clearUserPref(confirmationEnabledKey);
+          else
+            Services.prefs.setBoolPref(confirmationEnabledKey, originalConfirmationEnabled);
         }, 100);
       }
       catch(e) {
