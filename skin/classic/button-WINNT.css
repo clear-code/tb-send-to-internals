@@ -24,6 +24,7 @@
   toolbar[iconsize="small"] #button-sendToInternals[disabled="true"] {
     -moz-image-region: rect(32px 16px 48px 0px) !important;
   }
+}
 
 @media not all and (-moz-os-version: windows-xp) {
   #button-sendToInternals {
